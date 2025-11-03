@@ -17,27 +17,21 @@ const Reservation = () => {
   const handleReservation = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        "http://localhost:4000/reservation/send",
-        { firstName, lastName, email, phone, date, time },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      toast.success(data.message);
-      setFirstName("");
-      setLastName("");
-      setPhone(0);
-      setEmail("");
-      setTime("");
-      setDate("");
-      navigate("/success");
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
+  const { data } = await axios.post(
+    `${API_URL}/reservation/send`,
+    { firstName, lastName, email, phone, date, time },
+    { headers: { "Content-Type": "application/json" }, withCredentials: true }
+  );
+  console.log("API response:", data); // <--- add this
+  toast.success(data.message);
+  // ...reset form...
+  navigate("/success");
+} catch (error) {
+  console.error(error); // <--- log the error
+  const message = error?.response?.data?.message || "Request failed";
+  toast.error(message);
+} 
+
   };
 
   return (
