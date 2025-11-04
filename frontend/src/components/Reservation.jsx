@@ -4,7 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-REACT_APP_BACKEND_URL=https://table-booking-q1rq.onrender.com
+REACT_APP_BACKEND_URL="https://table-booking-q1rq.onrender.com";
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
 
