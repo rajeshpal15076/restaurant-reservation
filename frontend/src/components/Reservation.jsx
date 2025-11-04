@@ -4,6 +4,8 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+const API_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
+
 
 const Reservation = () => {
   const [firstName, setFirstName] = useState("");
