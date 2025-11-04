@@ -8,7 +8,7 @@ import { dbConnection } from "./database/dbConnection.js";
 const app = express();
 dotenv.config({ path: "./config/config.env" });
 
-const cors = require('cors');
+
 app.use(cors({
   origin: 'https://restaurant-reservation-system-tawny.vercel.app', // Your deployed frontend URL
   credentials: true
