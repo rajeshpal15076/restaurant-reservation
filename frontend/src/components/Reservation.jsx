@@ -5,11 +5,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-
-const API_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
-
-
-
+const API_URL = 'http://localhost:5001/api/v1/reservation';
 
 const Reservation = () => {
   const [firstName, setFirstName] = useState("");
@@ -23,21 +19,29 @@ const Reservation = () => {
   const handleReservation = async (e) => {
     e.preventDefault();
     try {
-  const { data } = await axios.post(
-    `${API_URL}/api/v1/reservation/send`,
-    { firstName, lastName, email, phone, date, time },
-    { headers: { "Content-Type": "application/json" }, withCredentials: true }
-  );
-  console.log("API response:", data); // <--- add this
-  toast.success(data.message);
-  // ...reset form...
-  navigate("/success");
-} catch (error) {
-  console.error(error); // <--- log the error
-  const message = error?.response?.data?.message || "Request failed";
-  toast.error(message);
-} 
+      const { data } = await axios.post(
+  `${API_URL}/send`,
+  { firstName, lastName, email, phone, date, time },
+  {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  }
+);
 
+      
+      toast.success(data.message);
+      setFirstName("");
+      setLastName("");
+      setPhone(0);
+      setEmail("");
+      setTime("");
+      setDate("");
+      navigate("/success");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
@@ -56,12 +60,14 @@ const Reservation = () => {
                   type="text"
                   placeholder="First Name"
                   value={firstName}
+                  name="firstName"
                   onChange={(e) => setFirstName(e.target.value)}
                 />
                 <input
                   type="text"
                   placeholder="Last Name"
                   value={lastName}
+                  name="lastName"
                   onChange={(e) => setLastName(e.target.value)}
                 />
               </div>
@@ -70,12 +76,14 @@ const Reservation = () => {
                   type="date"
                   placeholder="Date"
                   value={date}
+                  name="date"
                   onChange={(e) => setDate(e.target.value)}
                 />
                 <input
                   type="time"
                   placeholder="Time"
                   value={time}
+                  name="time"
                   onChange={(e) => setTime(e.target.value)}
                 />
               </div>
@@ -85,12 +93,14 @@ const Reservation = () => {
                   placeholder="Email"
                   className="email_tag"
                   value={email}
+                  name="email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   type="number"
                   placeholder="Phone"
                   value={phone}
+                  name="phone"
                   onChange={(e) => setPhone(e.target.value)}
                 />
               </div>

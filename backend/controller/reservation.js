@@ -1,4 +1,4 @@
-import ErrorHandler from "../error/error.js";
+import ErrorHandler from "../middlewares/error.js";
 import { Reservation } from "../models/reservation.js";
 
 
