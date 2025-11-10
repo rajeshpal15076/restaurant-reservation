@@ -6,7 +6,7 @@ import reservationRouter from "./routes/reservationRoute.js";
 import { dbConnection } from "./database/dbConnection.js";
 
 const app = express();
-dotenv.config({ path: './config/.env' });
+dotenv.config();
 
 console.log("CORS Origin Loaded:", process.env.FRONTEND_URL);
 app.use(
