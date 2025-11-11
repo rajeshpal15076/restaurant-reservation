@@ -5,7 +5,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = 'http://localhost:5001/api/v1/reservation';
+const API_URL =
+  "https://restaurant-reservation-b7md.onrender.com/api/v1/reservation";
 
 const Reservation = () => {
   const [firstName, setFirstName] = useState("");
@@ -20,17 +21,16 @@ const Reservation = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-  `${API_URL}/send`,
-  { firstName, lastName, email, phone, date, time },
-  {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    withCredentials: true,
-  }
-);
+        `${API_URL}/send`,
+        { firstName, lastName, email, phone, date, time },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-      
       toast.success(data.message);
       setFirstName("");
       setLastName("");
@@ -40,7 +40,8 @@ const Reservation = () => {
       setDate("");
       navigate("/success");
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.error("Error submitting reservation:", error);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
