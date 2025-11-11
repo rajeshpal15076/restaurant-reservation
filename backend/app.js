@@ -8,15 +8,24 @@ import { dbConnection } from "./database/dbConnection.js";
 const app = express();
 dotenv.config();
 
-console.log("CORS Origin Loaded:", process.env.FRONTEND_URL);
+const allowedOrigins = [
+  process.env.FRONTEND_URL, // from Render
+  "http://localhost:5173",  // for local dev
+];
+
 app.use(
   cors({
-    origin: [
-      process.env.FRONTEND_URL, // Your Vercel frontend
-      "http://localhost:5173", // Local development
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps, curl, Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = `The CORS policy for this site does not allow access from the specified origin: ${origin}`;
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
@@ -24,7 +33,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/reservation", reservationRouter);
-app.get("/", (req, res, next) => {
+
+app.get("/", (req, res) => {
   return res.status(200).json({
     success: true,
     message: "HELLO WORLD AGAIN",
